@@ -31,51 +31,100 @@ select
 
 /* END RESET */
 
+#content {
+  position: absolute;
+  top: 50px;
+  left: 50px;
+}
+
 #Calculator
 {
+  padding-top: 10px;
+  padding-bottom: 10px;
   width: 340px;
-  background: #ccc;
+  background: hsl(240, 5%, 50%);
+  border: 2px solid #1e1e2e;
   display: flex;
   flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+  gap: 20px;
 }
 
 #ContainerScreen
 {
-  height: 10vmin;
-  background: #555;
+  height: 100px;
+  width: 95%;
+  background: #1e1e2e88;
+  border: 2px solid #1e1e2e;
+  box-shadow: inset 0 4px 5px #00000055;
   display: flex;
-  align-items: center;
-  justify-content: flex-end;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: space-around;
 }
 
 .screenText
 {
   color: #fff;
-  font-size: 2rem;
+  font-size: 2.5rem;
   padding-right: 10px;
+  flex: 2;
+}
+
+.screenPrev {
+  color: #bbb;
+  font-size: 1.25rem;
+  padding-right: 14px;
+  padding-top: 15px;
+  flex: 1;
 }
 
 #ContainerButtons
 {
-  align-self: center;
+  width: 95%;
   display: flex;
   flex-wrap: wrap;
+  border: 2px solid #1e1e2e;
+  gap: 2px;
 }
 
 .buttonBackground
 {
-  width: 80px;
-  height: 80px;
   border: none;
+  background: hsl(240, 15%, 30%);
+  cursor: pointer;
+  min-width: 70px;
+  min-height: 80px;
+  flex-grow: 1;
+  display: flex;
 }
 
-#ContainerButtons .digit
-{
-  background: #1e1e2e;
+.buttonText {
+  display: block;
+  flex-grow: 1;
+  padding: 30px 30px;
+  width: 70px;
+  height: 80px;
   color: #fff;
+  font-style: bold;
+  font-size: 1.5rem;
 }
 
-#ContainerButtons .action
+.digit
+{
+  background: hsl(240, 21%, 15%);
+}
+
+.clear
 {
   background: hsl(345, 50%, 50%);
+}
+
+.buttonBackground:hover .buttonText {
+  background: hsla(0,0%,0%, 0.2);
+}
+
+.buttonBackground:active .buttonText {
+  background: hsla(0, 100%, 100%, 0.2);
 }
