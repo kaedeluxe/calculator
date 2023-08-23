@@ -17,12 +17,17 @@ function clearScreen(clearType) {
     case "C":
       screenText.textContent = '0';
       screenValCurrent = '';
+      firstNumber = '';
       break;
     case "CE":
       screenText.textContent = '0';
       screenPrev.textContent = '0';
       screenValCurrent = '';
       screenValFirst = '';
+      firstNumber = '';
+      secondNumber = '';
+      outputNumber = '';
+      opCount = 0;
       break;
     case "Back":
       screenText.textContent = 'idfk';
@@ -79,6 +84,11 @@ function operate() {
       outputNumber = firstNumber * secondNumber;
       break;
     case "÷":
+      if (secondNumber == 0) {
+        alert("Okay good one, let's not implode the universe shall we?");
+        clearScreen("CE");
+        return;
+      }
       outputNumber = firstNumber / secondNumber;
       break;
     case "+":

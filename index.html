@@ -4,11 +4,17 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="./style.css" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DotGothic16&family=Maven+Pro&family=Nunito&family=Roboto:ital,wght@0,400;0,700;0,900;1,300&family=Silkscreen:wght@400;700&display=swap" rel="stylesheet">
     <script src="./script.js" defer></script>
     <title>Calculator</title>
   </head>
   <body>
+    <div id="background">
+    </div>
     <div id="content">
+      <h1>Whoa it's a calculator, no way!</h1>
       <div id="Calculator">
       <div id="ContainerScreen">
         <p class="screenPrev">0</p>
@@ -16,7 +22,7 @@
       <div id="ContainerButtons">
         <button type="button" class="buttonBackground clear" data-input="CE"><span class="buttonText">CE</span></button>
         <button type="button" class="buttonBackground clear" data-input="C"><span class="buttonText">C</span></button>
-        <button type="button" class="buttonBackground clear" data-input="Back"><span class="buttonText"></span></button>
+        <button type="button" class="buttonBackground clear" data-input="Back"><span class="buttonText">←</span></button>
         <button type="button" class="buttonBackground operation" data-input="÷"><span class="buttonText">÷</span></button>
         <button type="button" class="buttonBackground digit" data-input="7"><span class="buttonText">7</span></button>
         <button type="button" class="buttonBackground digit" data-input="8"><span class="buttonText">8</span></button>
