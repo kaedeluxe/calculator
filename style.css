@@ -1,12 +1,12 @@
 * {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: "DotGothic16", sans-serif;
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: 'DotGothic16', sans-serif;
 }
 
 html {
-  font-size: 100%;
+        font-size: 100%;
 }
 
 img,
@@ -14,121 +14,121 @@ picture,
 video,
 canvas,
 svg {
-  display: block;
-  max-width: 100%;
+        display: block;
+        max-width: 100%;
 }
 
 input,
 button,
 textarea,
 select {
-  font: inherit;
+        font: inherit;
 }
 
 /* END RESET */
 
 #background {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(hsl(350, 10%, 50%), hsl(335, 10%, 30%));
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(hsl(350, 10%, 50%), hsl(335, 10%, 30%));
 }
 
 #content {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 20px;
-  color: #1e1e2e;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
+        color: #1e1e2e;
 }
 
 #Calculator {
-  padding-top: 10px;
-  padding-bottom: 10px;
-  width: 340px;
-  background: linear-gradient(hsl(240, 5%, 50%), hsl(240, 10%, 40%));
-  border: 2px solid #1e1e2e;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-around;
-  gap: 20px;
-  box-shadow: 0 10px 20px #000000aa;
+        padding-top: 10px;
+        padding-bottom: 10px;
+        width: 340px;
+        background: linear-gradient(hsl(240, 5%, 50%), hsl(240, 10%, 40%));
+        border: 2px solid #1e1e2e;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-around;
+        gap: 20px;
+        box-shadow: 0 10px 20px #000000aa;
 }
 
 #ContainerScreen {
-  height: 100px;
-  width: 95%;
-  background: #1e1e2e88;
-  border: 2px solid #1e1e2e;
-  box-shadow: inset 0 4px 5px #00000055;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  justify-content: space-around;
+        height: 100px;
+        width: 95%;
+        background: #1e1e2e88;
+        border: 2px solid #1e1e2e;
+        box-shadow: inset 0 4px 5px #00000055;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        justify-content: space-around;
 }
 
 .screenText {
-  color: #fff;
-  font-size: 2.5rem;
-  padding-right: 10px;
-  flex: 2;
+        color: #fff;
+        font-size: 2.5rem;
+        padding-right: 10px;
+        flex: 2;
 }
 
 .screenPrev {
-  color: #bbb;
-  font-size: 1.25rem;
-  padding-right: 14px;
-  padding-top: 15px;
-  flex: 1;
+        color: #bbb;
+        font-size: 1.25rem;
+        padding-right: 14px;
+        padding-top: 15px;
+        flex: 1;
 }
 
 #ContainerButtons {
-  width: 95%;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
+        width: 95%;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
 }
 
 .buttonBackground {
-  border: 2px solid #1e1e2e;
-  background: hsl(240, 15%, 30%);
-  border-radius: 5px;
-  overflow: hidden;
-  cursor: pointer;
-  min-width: 55px;
-  min-height: 70px;
-  flex-grow: 1;
-  display: flex;
+        border: 2px solid #1e1e2e;
+        background: hsl(240, 15%, 30%);
+        border-radius: 5px;
+        overflow: hidden;
+        cursor: pointer;
+        min-width: 55px;
+        min-height: 70px;
+        flex-grow: 1;
+        display: flex;
 }
 
 .buttonText {
-  display: block;
-  flex-grow: 1;
-  padding: 15px 15px;
-  width: 55px;
-  height: 70px;
-  color: #fff;
-  font-style: bold;
-  font-size: 1.5rem;
+        display: block;
+        flex-grow: 1;
+        padding: 15px 15px;
+        width: 55px;
+        height: 70px;
+        color: #fff;
+        font-style: bold;
+        font-size: 1.5rem;
 }
 
 .digit {
-  background: hsl(240, 21%, 15%);
+        background: hsl(240, 21%, 15%);
 }
 
 .clear {
-  background: hsl(345, 50%, 50%);
+        background: hsl(345, 50%, 50%);
 }
 
 .buttonBackground:hover .buttonText {
-  background: hsla(0, 0%, 0%, 0.2);
+        background: hsla(0, 0%, 0%, 0.2);
 }
 
 .buttonBackground:active .buttonText {
-  background: hsla(0, 100%, 100%, 0.2);
+        background: hsla(0, 100%, 100%, 0.2);
 }
