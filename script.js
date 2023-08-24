@@ -1,113 +1,125 @@
 const query = (query) => document.querySelector(query),
-  queryAll = (query) => document.querySelectorAll(query),
-  createEl = (element) => document.createElement(element),
-  screenText = query(".screenText"),
-  screenPrev = query(".screenPrev"),
-  buttonsAll = queryAll(".buttonBackground"),
-  inputDigits = queryAll(".digit"),
-  buttonClearAll = queryAll(".clear"),
-  buttonDecimal = query(".decimal"),
-  inputEquals = query(".equals"),
-  inputOperations = queryAll(".operation");
+        queryAll = (query) => document.querySelectorAll(query),
+        screenCurrent = query('.screenText'),
+        screenPrev = query('.screenPrev'),
+        buttonsAll = queryAll('.buttonBackground'),
+        inputDigits = queryAll('.digit'),
+        buttonClearAll = queryAll('.clear'),
+        buttonDecimal = query('.decimal'),
+        inputEquals = query('.equals'),
+        inputoperateTypes = queryAll('.operation');
 
 let firstNumber,
-  operation,
-  opCount = 0,
-  secondNumber,
-  screenValFirst,
-  screenValCurrent = "",
-  outputNumber;
+        operateType,
+        opCount = 0,
+        secondNumber,
+        screenValPrev,
+        screenValCurrent = '',
+        result;
 
 function clearScreen(clearType) {
-  switch (clearType) {
-    case "C":
-      screenText.textContent = "0";
-      screenValCurrent = "";
-      firstNumber = "";
-      break;
-    case "CE":
-      screenText.textContent = "0";
-      screenPrev.textContent = "0";
-      screenValCurrent = "";
-      screenValFirst = "";
-      firstNumber = "";
-      secondNumber = "";
-      outputNumber = "";
-      opCount = 0;
-      break;
-    case "Back":
-      screenText.textContent = "idfk";
-      break;
-  }
+        switch (clearType) {
+                case 'C':
+                        screenCurrent.textContent = '0';
+                        screenValCurrent = '';
+                        firstNumber = '';
+                        break;
+                case 'CE':
+                        screenCurrent.textContent = '0';
+                        screenPrev.textContent = '0';
+                        screenValCurrent = '';
+                        screenValPrev = '';
+                        firstNumber = '';
+                        secondNumber = '';
+                        result = '';
+                        opCount = 0;
+                        break;
+                case 'Back':
+                        screenCurrent.textContent = 'idfk';
+                        break;
+        }
 }
 
 inputDigits.forEach((button) => {
-  button.addEventListener("click", () => {
-    if (screenText.textContent == "0") {
-      screenText.textContent = button.getAttribute("data-input");
-    } else {
-      screenText.textContent += button.getAttribute("data-input");
-    }
-    screenValCurrent += button.getAttribute("data-input");
-  });
+        let buttonData = button.getAttribute('data-input');
+        button.addEventListener('click', () => {
+                if (screenCurrent.textContent == '0') {
+                        screenCurrent.textContent = buttonData;
+                } else {
+                        screenCurrent.textContent += buttonData;
+                }
+                screenValCurrent += buttonData;
+        });
 });
 
-inputOperations.forEach((button) => {
-  button.addEventListener("click", () => {
-    if (opCount > 0) {
-      operate();
-    }
-    operation = button.getAttribute("data-input");
-    opCount++;
-    screenValFirst = screenValCurrent;
-    screenPrev.textContent = screenValFirst;
-    clearScreen("C");
-    screenValCurrent = "";
-    screenText.textContent = `${operation} `;
-  });
+inputoperateTypes.forEach((button) => {
+        button.addEventListener('click', () => {
+                if (opCount > 0) {
+                        operate();
+                }
+                operateType = button.getAttribute('data-input');
+                opCount++;
+                screenValPrev = screenValCurrent;
+                screenPrev.textContent = screenValPrev;
+                clearScreen('C');
+                screenValCurrent = '';
+                screenCurrent.textContent = `${operateType} `;
+                firstNumber = Number(screenValPrev);
+        });
 });
 
 buttonClearAll.forEach((button) => {
-  button.addEventListener("click", () => {
-    clearScreen(button.getAttribute("data-input"));
-  });
+        button.addEventListener('click', () => {
+                clearScreen(button.getAttribute('data-input'));
+        });
 });
 
-buttonDecimal.addEventListener("click", () => {
-  if (screenValCurrent.includes(".")) {
-    return;
-  } else {
-    screenText.textContent += ".";
-    screenValCurrent += ".";
-  }
+buttonDecimal.addEventListener('click', () => {
+        if (screenValCurrent.includes('.')) {
+                return;
+        } else {
+                screenCurrent.textContent += '.';
+                screenValCurrent += '.';
+        }
 });
 
-function operate() {
-  firstNumber = Number(screenValFirst);
-  secondNumber = Number(screenValCurrent);
-  switch (operation) {
-    case "×":
-      outputNumber = firstNumber * secondNumber;
-      break;
-    case "÷":
-      if (secondNumber == 0) {
-        alert("Okay good one, let's not implode the universe shall we?");
-        clearScreen("CE");
-        return;
-      }
-      outputNumber = firstNumber / secondNumber;
-      break;
-    case "+":
-      outputNumber = firstNumber + secondNumber;
-      break;
-    case "-":
-      outputNumber = firstNumber - secondNumber;
-      break;
-  }
-  outputNumber = Math.round(outputNumber * 100000) / 100000;
-  screenText.textContent = outputNumber;
-  screenValCurrent = outputNumber;
-  opCount = 0;
+function roundToFive(number) {
+        return (number = Math.round(number * 100000) / 100000);
 }
 
-inputEquals.addEventListener("click", operate);
+function operate() {
+        secondNumber = Number(screenValCurrent);
+        // alert(`currVal: ${screenValCurrent}, prevVal: ${screenValPrev}, opType: ${operateType}`)
+        switch (operateType) {
+                case '×':
+                        result = firstNumber * secondNumber;
+                        break;
+                case '÷':
+                        if (secondNumber == 0) {
+                                alert(
+                                        "Okay good one, let's not implode the universe shall we?"
+                                );
+                                clearScreen('CE');
+                                return;
+                        }
+                        result = firstNumber / secondNumber;
+                        break;
+                case '+':
+                        result = firstNumber + secondNumber;
+                        break;
+                case '-':
+                        result = firstNumber - secondNumber;
+                        break;
+                default:
+                        result = secondNumber;
+                        break;
+        }
+        result = roundToFive(result);
+        screenValPrev = screenValCurrent;
+        screenPrev.textContent = screenValPrev;
+        screenCurrent.textContent = result;
+        screenValCurrent = result;
+        opCount = 0;
+}
+
+inputEquals.addEventListener('click', operate);
