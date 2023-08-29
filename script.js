@@ -1,85 +1,115 @@
 const query = (query) => document.querySelector(query),
         queryAll = (query) => document.querySelectorAll(query),
-        screenCurrent = query('.screenText'),
-        screenPrev = query('.screenPrev'),
-        buttonsAll = queryAll('.buttonBackground'),
-        inputDigits = queryAll('.digit'),
-        buttonClearAll = queryAll('.clear'),
-        buttonDecimal = query('.decimal'),
-        inputEquals = query('.equals'),
-        inputoperateTypes = queryAll('.operation');
+        currScreen = query('.screenText'),
+        prevScreen = query('.screenPrev'),
+        btnDigitsAll = queryAll('.digit'),
+        btnClearAll = queryAll('.clear'),
+        btnDecimal = query('.decimal'),
+        btnEquals = query('.equals'),
+        btnOpsAll = queryAll('.operation');
 
-let firstNumber,
-        operateType,
+let runningTotal,
+        prevBuffer = 0,
+        currBuffer = '',
+        screenBuffer = '',
+        operator,
         opCount = 0,
-        secondNumber,
-        screenValPrev,
-        screenValCurrent = '',
-        result;
+        result = 0;
 
-function clearScreen(clearType) {
-        switch (clearType) {
-                case 'C':
-                        screenCurrent.textContent = '0';
-                        screenValCurrent = '';
-                        firstNumber = '';
+// Operations
+
+function operate() {
+        if (!runningTotal) {
+                runningTotal = Number(prevBuffer);
+        }
+        currBuffer = Number(currBuffer);
+        prevBuffer = Number(prevBuffer);
+        switch (operator) {
+                case '×':
+                        result = runningTotal * currBuffer;
                         break;
-                case 'CE':
-                        screenCurrent.textContent = '0';
-                        screenPrev.textContent = '0';
-                        screenValCurrent = '';
-                        screenValPrev = '';
-                        firstNumber = '';
-                        secondNumber = '';
-                        result = '';
-                        opCount = 0;
+                case '÷':
+                        if (currBuffer == 0) {
+                                alert(
+                                        "Okay good one, let's not implode the universe shall we?"
+                                );
+                                clearScreen('CE');
+                                return;
+                        }
+                        result = runningTotal / currBuffer;
                         break;
-                case 'Back':
-                        screenCurrent.textContent = 'idfk';
+                case '+':
+                        result = runningTotal + currBuffer;
+                        break;
+                case '-':
+                        result = runningTotal - currBuffer;
+                        break;
+                default:
+                        result = runningTotal;
                         break;
         }
+        result = roundToFive(result);
+        runningTotal = result;
+        currScreen.textContent = result;
 }
 
-inputDigits.forEach((button) => {
-        let buttonData = button.getAttribute('data-input');
+// Digits
+
+function digitToBuffer(data) {
+        if (currScreen.textContent == '0') {
+                currScreen.textContent = '';
+        }
+        if (currBuffer == '') {
+                currScreen.textContent = '';
+        }
+        currScreen.textContent += data;
+        screenBuffer += data;
+        currBuffer += data;
+}
+
+btnDigitsAll.forEach((button) => {
+        let data = button.getAttribute('data-input');
         button.addEventListener('click', () => {
-                if (screenCurrent.textContent == '0') {
-                        screenCurrent.textContent = buttonData;
-                } else {
-                        screenCurrent.textContent += buttonData;
-                }
-                screenValCurrent += buttonData;
+                digitToBuffer(data);
         });
 });
 
-inputoperateTypes.forEach((button) => {
+// Operators
+
+function getOperateType(data) {
+        currScreen.textContent = '';
+        if (opCount != 0) {
+                operate();
+        }
+        operator = data;
+        if (currBuffer) {
+                prevBuffer = currBuffer;
+        } else {
+                prevBuffer = 0;
+                screenBuffer = '0';
+        }
+        screenBuffer += ` ${operator} `;
+        prevScreen.textContent = screenBuffer;
+        currBuffer = 0;
+        opCount++;
+}
+
+btnOpsAll.forEach((button) => {
+        let data = button.getAttribute('data-input');
         button.addEventListener('click', () => {
-                if (opCount > 0) {
-                        operate();
-                }
-                operateType = button.getAttribute('data-input');
-                opCount++;
-                screenValPrev = screenValCurrent;
-                screenPrev.textContent = screenValPrev;
-                clearScreen('C');
-                screenValCurrent = '';
-                screenCurrent.textContent = `${operateType} `;
-                firstNumber = Number(screenValPrev);
+                getOperateType(data);
         });
 });
 
-buttonClearAll.forEach((button) => {
-        button.addEventListener('click', () => {
-                clearScreen(button.getAttribute('data-input'));
-        });
-});
+// Decimal
 
-buttonDecimal.addEventListener('click', () => {
-        if (screenValCurrent.includes('.')) {
+btnDecimal.addEventListener('click', () => {
+        if (currBuffer.includes('.')) {
                 return;
         } else {
-                screenCurrent.textContent += '.';
-                screenValCurrent += '.';
+                currScreen.textContent += '.';
+                currBuffer += '.';
+                screenBuffer += '.';
         }
 });
 
@@ -87,39 +117,50 @@ function roundToFive(number) {
         return (number = Math.round(number * 100000) / 100000);
 }
 
-function operate() {
-        secondNumber = Number(screenValCurrent);
-        // alert(`currVal: ${screenValCurrent}, prevVal: ${screenValPrev}, opType: ${operateType}`)
-        switch (operateType) {
-                case '×':
-                        result = firstNumber * secondNumber;
-                        break;
-                case '÷':
-                        if (secondNumber == 0) {
-                                alert(
-                                        "Okay good one, let's not implode the universe shall we?"
-                                );
-                                clearScreen('CE');
-                                return;
-                        }
-                        result = firstNumber / secondNumber;
-                        break;
-                case '+':
-                        result = firstNumber + secondNumber;
-                        break;
-                case '-':
-                        result = firstNumber - secondNumber;
-                        break;
-                default:
-                        result = secondNumber;
-                        break;
-        }
-        result = roundToFive(result);
-        screenValPrev = screenValCurrent;
-        screenPrev.textContent = screenValPrev;
-        screenCurrent.textContent = result;
-        screenValCurrent = result;
+// Equals
+
+function displayResult() {
+        operate();
+        prevScreen.textContent = '';
+        screenBuffer = result;
         opCount = 0;
 }
 
-inputEquals.addEventListener('click', operate);
+btnEquals.addEventListener('click', displayResult);
+
+// Clear buttons
+
+function clearScreen(data) {
+        switch (data) {
+                case 'CE':
+                        currScreen.textContent = '0';
+                        currBuffer = '';
+                        break;
+                case 'C':
+                        currScreen.textContent = '0';
+                        runningTotal = '';
+                        prevScreen.textContent = '';
+                        prevBuffer = '';
+                        currBuffer = '';
+                        screenBuffer = '';
+                        opCount = 0;
+                        result = 0;
+                        break;
+                case 'Back':
+                        currBuffer = currBuffer.split('');
+                        currBuffer.splice(-1, 1);
+                        currBuffer = currBuffer.join('');
+                        screenBuffer = screenBuffer.split('');
+                        screenBuffer.splice(-1, 1);
+                        screenBuffer = screenBuffer.join('');
+                        currScreen.textContent = currBuffer;
+                        break;
+        }
+}
+
+btnClearAll.forEach((button) => {
+        let data = button.getAttribute('data-input');
+        button.addEventListener('click', () => {
+                clearScreen(data);
+        });
+});
